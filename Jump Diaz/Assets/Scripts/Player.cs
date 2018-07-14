@@ -33,7 +33,7 @@ public class Player : MonoBehaviour
     {
         if (isFalling)
         {
-            rgbdy.MovePosition(rgbdy.position + Vector2.down * movementSpeed * Time.deltaTime);
+            rgbdy.MovePosition(rgbdy.position + Vector2.down * fallSpeed * Time.deltaTime);
         }
     }
     /// <summary>
