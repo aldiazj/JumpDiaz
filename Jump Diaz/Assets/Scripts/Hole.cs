@@ -9,7 +9,7 @@ public class Hole : MonoBehaviour
     Transform holeTransform;
 
     bool isPlaced;
-    float passingTime = 0;
+    public static float passingTime = 0;
     Vector2 direction = Vector2.right;
 
     [SerializeField]
@@ -19,7 +19,7 @@ public class Hole : MonoBehaviour
     {
         col = GetComponent<Collider2D>();
         holeTransform = GetComponent<Transform>();
-        Initialize(Vector2.left);
+        Initialize(Vector2.right);
     }
 
     private void Update()
@@ -37,10 +37,7 @@ public class Hole : MonoBehaviour
         {
             holeTransform.Translate(direction * movingSpeed * Time.deltaTime);
             if (!LimitsManager.IsVisible(Camera.main, holeTransform.position))
-            {
                 MoveToNextLine();
-            }
-
         }
     }
 
@@ -48,11 +45,12 @@ public class Hole : MonoBehaviour
     {
         Vector2 newPos = holeTransform.position;
         newPos.y += (direction == Vector2.right) ? -1 : 1;
+        newPos.x *= -1;
         if (newPos.y < -3 || newPos.y > 4)
         {
             isPlaced = false;
+            newPos = new Vector2(100, 100);
         }
-        newPos.x *= -1;
         holeTransform.position = newPos;
         //holeTransform.
     }
@@ -65,6 +63,10 @@ public class Hole : MonoBehaviour
     public void Initialize(Vector2 dir)
     {
         direction = dir;
+        Vector2 newPos = holeTransform.position;
+        newPos.y = (direction == Vector2.right) ? 4 : -3;
+        newPos.x = (direction == Vector2.right) ? -5.8f : 5.8f;
+        holeTransform.position = newPos;
         isPlaced = true;
     }
 }
