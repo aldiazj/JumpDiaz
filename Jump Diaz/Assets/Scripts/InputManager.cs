@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
+    // ------ Singleton
     private static InputManager instance = null;
 
     public static InputManager Instance
@@ -18,7 +19,6 @@ public class InputManager : MonoBehaviour
                 {
                     GameObject go = new GameObject(typeof(InputManager).ToString());
                     instance = go.AddComponent<InputManager>();
-
                     DontDestroyOnLoad(go);
                 }
             }
@@ -26,14 +26,11 @@ public class InputManager : MonoBehaviour
         }
     }
 
+    // ------ Input receivers
     [SerializeField]
     Player player;
-
-	void Start () {
-		
-	}
 	
-	void FixedUpdate ()
+	void Update ()
     {
         // Player verification and Input handling
         if (player)
@@ -43,7 +40,7 @@ public class InputManager : MonoBehaviour
             // Rigth or D Input
             if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)) { player.MovePlayerHorizontally(Vector2.right); }
             // Up or Space Input
-            if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.Space)) { }
+            if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.Space)) { player.StartAscent(); }
         }
 	}
 
