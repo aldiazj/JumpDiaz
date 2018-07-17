@@ -84,6 +84,22 @@ public class Player : MonoBehaviour
         }
         // Move the player in a given horizintal direction multiplied by the movement speed and the delta time
         rgbdy.MovePosition(rgbdy.position+direction*movementSpeed*Time.deltaTime);
+        if (!LimitsManager.PlayerInsideLine(rgbdy.position))
+            MoveToOtherSide();
+    }
+
+    private void MoveToOtherSide()
+    {
+        // If the hole is moving right then at th end of the line it should go down one level, else it should go up
+        Vector2 newPos = rgbdy.position;
+        newPos.x *= -1;
+        // The hole needs to be repositioned on x to avoid conflicts with the LimitsManager
+        if (newPos.x < 0)
+            newPos.x += 0.1f;
+        if (newPos.x > 0)
+            newPos.x -= 0.1f;
+        // If the hole reaches the top, it should start again at the bottom and viceversa
+        rgbdy.MovePosition(newPos);
     }
 
     private void DecreaseLife()
