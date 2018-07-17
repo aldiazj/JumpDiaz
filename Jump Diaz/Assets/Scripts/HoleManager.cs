@@ -19,7 +19,6 @@ public class HoleManager : MonoBehaviour
                 {
                     GameObject go = new GameObject(typeof(HoleManager).ToString());
                     instance = go.AddComponent<HoleManager>();
-                    DontDestroyOnLoad(go);
                 }
             }
             return instance;
@@ -28,12 +27,18 @@ public class HoleManager : MonoBehaviour
 
     List<Hole> availableHoles = new List<Hole>();
 	
+    /// <summary>
+    /// Send a hole with a random direction, if there is any available at the pool
+    /// </summary>
     public void SendHole()
     {
-        int x = Random.Range(0, availableHoles.Count);
-        Vector2 holeDirection = (Random.Range(0, 2) == 0) ? Vector2.left : Vector2.right;
-        availableHoles[x].Initialize(holeDirection);
-        availableHoles.RemoveAt(x);
+        if (availableHoles.Count > 0)
+        {
+            int x = Random.Range(0, availableHoles.Count);
+            Vector2 holeDirection = (Random.Range(0, 2) == 0) ? Vector2.left : Vector2.right;
+            availableHoles[x].Initialize(holeDirection);
+            availableHoles.RemoveAt(x); 
+        }
     }
 
     /// <summary>
