@@ -19,7 +19,6 @@ public class InputManager : MonoBehaviour
                 {
                     GameObject go = new GameObject(typeof(InputManager).ToString());
                     instance = go.AddComponent<InputManager>();
-                    DontDestroyOnLoad(go);
                 }
             }
             return instance;

@@ -10,18 +10,19 @@ public class Player : MonoBehaviour
     float movementSpeed = 3.0f;
     [SerializeField]
     float fallSpeed = 3.0f;
-    [SerializeField]
-    Rigidbody2D rgbdy;
+    
     [SerializeField]
     CircleCollider2D headCollider;
     [SerializeField]
     CircleCollider2D feetCollider;
-    [SerializeField]
+
+    Rigidbody2D rgbdy;
+
     bool isFalling = false;
-    [SerializeField]
     bool isAscending = false;
-    [SerializeField]
     bool ableToPass = false;
+    [SerializeField]
+    int lives = 6;
 
     private void OnEnable()
     {
@@ -62,10 +63,9 @@ public class Player : MonoBehaviour
 
     public void StartAscent()
     {
-        if (!isFalling)
-        {
+        // if the player is not falling and actual state of the game is in play, then the player can jump
+        if (!isAscending && !isFalling && GameManager.Instance.State == GameStates.Play)
             isAscending = true;
-        }
     }
 
     /// <summary>
@@ -74,7 +74,7 @@ public class Player : MonoBehaviour
     /// <param name="direction"> Direction pointing where the player is going to move, it is suggested to use Vector2.left or Vector2.right</param>
     public void MovePlayerHorizontally(Vector2 direction)
     {
-        if (isFalling || isAscending)
+        if (isFalling || isAscending || GameManager.Instance.State != GameStates.Play)
             return;
         // Pop up an error if vertical movement is attempted
         if (direction.y != 0)
@@ -86,18 +86,39 @@ public class Player : MonoBehaviour
         rgbdy.MovePosition(rgbdy.position+direction*movementSpeed*Time.deltaTime);
     }
 
+    private void DecreaseLife()
+    {
+        // If there is at least one life decrease its number in one unit
+        if (lives > 1)
+            lives--;
+        else
+            Die(); // Else, the player has no more lives and must die
+    }
+
+    private void Die()
+    {
+        // Order the GameManager to change the actual state to GameOver
+        GameManager.Instance.ChangeState(GameStates.Gameover);
+        // TODO give a feedbak to the player that he lost
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        // Check if the player touches the floor and set isFalling to false
+        // Check if the player touches the floor with the feet and set isFalling to false
         if (collision.otherCollider == feetCollider && collision.gameObject.CompareTag(Utils.TAG_FLOOR))
         {
             isFalling = false;
             ableToPass = false;
+            int floorNumber = (int)collision.gameObject.GetComponent<Transform>().position.y + Utils.FLOORS_OFFSET;
+            GameManager.Instance.ActualFloor = floorNumber;
+            if (GameManager.Instance.ActualFloor == 0)
+            {
+                DecreaseLife();
+            }
         }
         // 
-        if (collision.otherCollider == headCollider && collision.gameObject.CompareTag(Utils.TAG_FLOOR) && !ableToPass )
+        if (collision.otherCollider == headCollider && collision.gameObject.CompareTag(Utils.TAG_FLOOR) && !ableToPass)
         {
-            Debug.Log("startFalling");
             isFalling = true;
             isAscending = false;
         }
@@ -108,14 +129,12 @@ public class Player : MonoBehaviour
         // If the player touches a hole with the feet and it is not ascending, then he will fall
         if (collision.CompareTag(Utils.TAG_HOLE) && collision.IsTouching(feetCollider) && !isAscending)
         {
-            Debug.Log("fall");
             isFalling = true;
         }
         // If the player touches a hole with the head and is not falling then he will pass to next floor
         if (collision.CompareTag(Utils.TAG_HOLE) && collision.IsTouching(headCollider) && !isFalling)
         {
             ableToPass = true;
-            
         }
     }
 
@@ -124,7 +143,6 @@ public class Player : MonoBehaviour
         // If the player touches a hole with the feet and it is ascending, then he will stop ascending
         if (collision.CompareTag(Utils.TAG_HOLE) && !collision.IsTouching(feetCollider) && isAscending)
         {
-            Debug.Log("startFalling exit");
             collision.GetComponent<Hole>().LetPlayerPass();
             isAscending = false;
             isFalling = true;
