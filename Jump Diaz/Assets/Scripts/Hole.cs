@@ -36,7 +36,7 @@ public class Hole : MonoBehaviour
         if (isPlaced && GameManager.Instance.State == GameStates.Play)
         {
             holeTransform.Translate(direction * movingSpeed * Time.deltaTime);
-            if (!LimitsManager.IsVisible(Camera.main, holeTransform.position))
+            if (!LimitsManager.HoleInsideLine(Camera.main, holeTransform.position))
                 MoveToNextLine();
         }
     }
