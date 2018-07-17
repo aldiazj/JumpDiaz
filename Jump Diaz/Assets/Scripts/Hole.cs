@@ -19,7 +19,7 @@ public class Hole : MonoBehaviour
     {
         col = GetComponent<Collider2D>();
         holeTransform = GetComponent<Transform>();
-        Initialize(Vector2.right);
+        HoleManager.Instance.ReceiveHole(this);
     }
 
     private void Update()
@@ -41,6 +41,16 @@ public class Hole : MonoBehaviour
         }
     }
 
+    public void Initialize(Vector2 dir)
+    {
+        direction = dir;
+        Vector2 newPos = holeTransform.position;
+        newPos.y = UnityEngine.Random.Range(-3, 5);
+        newPos.x = UnityEngine.Random.Range(-5.8f , 5.8f);
+        holeTransform.position = newPos;
+        isPlaced = true;
+    }
+
     private void MoveToNextLine()
     {
         Vector2 newPos = holeTransform.position;
@@ -58,15 +68,5 @@ public class Hole : MonoBehaviour
     public void LetPlayerPass()
     {
         passingTime = 2;
-    }
-
-    public void Initialize(Vector2 dir)
-    {
-        direction = dir;
-        Vector2 newPos = holeTransform.position;
-        newPos.y = (direction == Vector2.right) ? 4 : -3;
-        newPos.x = (direction == Vector2.right) ? -5.8f : 5.8f;
-        holeTransform.position = newPos;
-        isPlaced = true;
     }
 }
