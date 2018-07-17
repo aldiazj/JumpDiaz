@@ -42,7 +42,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private int initialHoles = 1;
 
-    // Actual floor where the player is, ONLY modify it on the Player class
+    // Actual floor where the playerMovement is, ONLY modify it on the Player class
     int actualFloor = 0;
     public int ActualFloor
     {
