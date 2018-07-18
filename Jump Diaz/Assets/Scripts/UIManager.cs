@@ -32,6 +32,8 @@ public class UIManager : MonoBehaviour
     Text highScoreText;
     [SerializeField]
     Text scoreText;
+    [SerializeField]
+    Text retryText;
 
     public void ModifyLives(int value)
     {
@@ -52,6 +54,10 @@ public class UIManager : MonoBehaviour
 
     public void ModifyScore(int value)
     {
-        highScoreText.text = "SC" + value.ToString("00000");
+        scoreText.text = "SC" + value.ToString("00000");
+    }
+    public void ModifyRetryText(bool value)
+    {
+        retryText.enabled = value;
     }
 }

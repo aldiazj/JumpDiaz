@@ -6,7 +6,6 @@ using UnityEngine;
 public enum PlayerState
 {
     Running,
-    Falling,
     Stunned
 }
 
@@ -18,12 +17,17 @@ public class Player : MonoBehaviour
     PlayerState state;
     public PlayerState State { get { return state; } }
 
+    private void Awake()
+    {
+        InputManager.Instance.AssignPlayer(this);
+    }
+
     public void DecreaseLife()
     {
         // If there is at least one life decrease its number in one unit
-        if (lives > 1)
+        if (lives > 0)
             lives--;
-        else
+        if (lives == 0)
             Die(); // Else, the playerMovement has no more lives and must die
         UIManager.Instance.ModifyLives(lives);
     }
@@ -32,7 +36,7 @@ public class Player : MonoBehaviour
     {
         // Order the GameManager to change the actual state to GameOver
         GameManager.Instance.ChangeState(GameStates.Gameover);
-        // TODO give a feedbak to the playerMovement that he lost
+        UIManager.Instance.ModifyRetryText(true);
     }
 
     public void StartStunState()
@@ -49,4 +53,9 @@ public class Player : MonoBehaviour
         state = PlayerState.Running;
     }
 
+    public void ResestPlayer()
+    {
+        lives = 6;
+        UIManager.Instance.ModifyLives(lives);
+    }
 }
