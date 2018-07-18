@@ -41,6 +41,8 @@ public class GameManager : MonoBehaviour
     // Holes to be set at the beggining of the level
     [SerializeField]
     private int initialHoles = 1;
+    [SerializeField]
+    private int initialEnemies = 1;
 
     // Actual floor where the playerMovement is, ONLY modify it on the Player class
     int actualFloor = 0;
@@ -57,6 +59,7 @@ public class GameManager : MonoBehaviour
 	void Start () 
 	{
         SetupHoles();
+        SetupEnemies();
 	}
 
     /// <summary>
@@ -90,7 +93,16 @@ public class GameManager : MonoBehaviour
         // Send all the holes asked
         for (int i = 0; i < initialHoles; i++)
         {
-            HoleManager.Instance.SendHole();
+            HazardManager.Instance.SendHole();
+        }
+    }
+
+    private void SetupEnemies()
+    {
+        // Send all the holes asked
+        for (int i = 0; i < initialEnemies; i++)
+        {
+            HazardManager.Instance.SendEnemy();
         }
     }
 }

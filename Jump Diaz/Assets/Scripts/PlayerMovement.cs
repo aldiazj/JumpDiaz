@@ -63,7 +63,7 @@ public class PlayerMovement : MonoBehaviour
     public void StartAscent()
     {
         // if the playerMovement is not falling and actual state of the game is in play, then the playerMovement can jump
-        if (!isAscending && !isFalling && GameManager.Instance.State == GameStates.Play && player.state == PlayerState.Running)
+        if (!isAscending && !isFalling && GameManager.Instance.State == GameStates.Play && player.State == PlayerState.Running)
             isAscending = true;
     }
 
@@ -73,7 +73,7 @@ public class PlayerMovement : MonoBehaviour
     /// <param name="direction"> Direction pointing where the playerMovement is going to move, it is suggested to use Vector2.left or Vector2.right</param>
     public void MovePlayerHorizontally(Vector2 direction)
     {
-        if (isFalling || isAscending || GameManager.Instance.State != GameStates.Play || player.state != PlayerState.Running)
+        if (isFalling || isAscending || GameManager.Instance.State != GameStates.Play || player.State != PlayerState.Running)
             return;
         // Pop up an error if vertical movement is attempted
         if (direction.y != 0)
@@ -83,7 +83,7 @@ public class PlayerMovement : MonoBehaviour
         }
         // Move the playerMovement in a given horizintal direction multiplied by the movement speed and the delta time
         rgbdy.MovePosition(rgbdy.position + direction * movementSpeed * Time.deltaTime);
-        if (!LimitsManager.PlayerInsideLine(rgbdy.position))
+        if (!LimitsManager.CharacterInsideLine(rgbdy.position))
             MoveToOtherSide();
     }
 
@@ -120,6 +120,11 @@ public class PlayerMovement : MonoBehaviour
         {
             isFalling = true;
             isAscending = false;
+            player.StartStunState();
+        }
+
+        if (collision.gameObject.CompareTag(Utils.TAG_ENEMY))
+        {
             player.StartStunState();
         }
     }

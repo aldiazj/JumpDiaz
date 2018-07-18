@@ -12,7 +12,7 @@ public static class LimitsManager
         return false;
     }
 
-    public static bool PlayerInsideLine(Vector3 pos)
+    public static bool CharacterInsideLine(Vector3 pos)
     {
         if (pos.x >= -5.2f && pos.x <= 5.2f)
             return true;
