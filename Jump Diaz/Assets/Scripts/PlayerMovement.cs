@@ -17,6 +17,7 @@ public class PlayerMovement : MonoBehaviour
     Rigidbody2D rgbdy;
     Player player;
 
+    Vector2 initialPos;
     bool isFalling = false;
     bool isAscending = false;
     bool ableToPass = false;
@@ -32,6 +33,7 @@ public class PlayerMovement : MonoBehaviour
     {
         rgbdy = GetComponent<Rigidbody2D>();
         player = GetComponent<Player>();
+        initialPos = rgbdy.position;
     }
 
     private void FixedUpdate()
@@ -101,6 +103,14 @@ public class PlayerMovement : MonoBehaviour
         rgbdy.MovePosition(newPos);
     }
 
+    public void ResetPLayerPosition()
+    {
+        isFalling = false;
+        isAscending = false;
+        ableToPass = false;
+        rgbdy.MovePosition(initialPos);
+    }
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         // Check if the playerMovement touches the floor with the feet and set isFalling to false
@@ -111,9 +121,7 @@ public class PlayerMovement : MonoBehaviour
             int floorNumber = (int)collision.gameObject.GetComponent<Transform>().position.y + Utils.FLOORS_OFFSET;
             GameManager.Instance.ActualFloor = floorNumber;
             if (GameManager.Instance.ActualFloor == 0)
-            {
                 player.DecreaseLife();
-            }
         }
         // 
         if (collision.otherCollider == headCollider && collision.gameObject.CompareTag(Utils.TAG_FLOOR) && !ableToPass)

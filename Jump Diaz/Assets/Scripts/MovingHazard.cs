@@ -8,6 +8,7 @@ public class MovingHazard : MonoBehaviour
     protected Transform hazardTransform;
 
     Vector2 direction = Vector2.right;
+    protected Vector2 initialPos;
 
     [SerializeField]
     float movingSpeed = 3.0f;
@@ -56,5 +57,10 @@ public class MovingHazard : MonoBehaviour
         else if (newPos.y > 4 + offset)
             newPos.y = -3 + offset;
         hazardTransform.position = newPos;
+    }
+
+    public void ResetHazardPosition()
+    {
+        hazardTransform.position = initialPos;
     }
 }

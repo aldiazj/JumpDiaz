@@ -12,6 +12,7 @@ public class Enemy : MovingHazard
         hazardTransform = GetComponent<Transform>();
         enemyRenderer = GetComponentInChildren<SpriteRenderer>();
         offset = 0.25f;
+        initialPos = hazardTransform.position;
         HazardManager.Instance.ReceiveEnemy(this);
     }
 
