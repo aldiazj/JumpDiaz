@@ -12,6 +12,7 @@ public class Hole : MovingHazard
     {
         col = GetComponent<Collider2D>();
         hazardTransform = GetComponent<Transform>();
+        initialPos = hazardTransform.position;
         HazardManager.Instance.ReceiveHole(this);
     }
 
