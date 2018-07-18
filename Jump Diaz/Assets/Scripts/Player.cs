@@ -6,6 +6,7 @@ using UnityEngine;
 public enum PlayerState
 {
     Running,
+    Falling,
     Stunned
 }
 
@@ -37,7 +38,7 @@ public class Player : MonoBehaviour
         StartCoroutine(GetStunned());
     }
 
-    WaitForSeconds stunnedWait = new WaitForSeconds(2f);
+    WaitForSeconds stunnedWait = new WaitForSeconds(3f);
 
     IEnumerator GetStunned()
     {

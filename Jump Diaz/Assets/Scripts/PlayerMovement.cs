@@ -63,7 +63,7 @@ public class PlayerMovement : MonoBehaviour
     public void StartAscent()
     {
         // if the playerMovement is not falling and actual state of the game is in play, then the playerMovement can jump
-        if (!isAscending && !isFalling && GameManager.Instance.State == GameStates.Play)
+        if (!isAscending && !isFalling && GameManager.Instance.State == GameStates.Play && player.state == PlayerState.Running)
             isAscending = true;
     }
 
@@ -73,7 +73,8 @@ public class PlayerMovement : MonoBehaviour
     /// <param name="direction"> Direction pointing where the playerMovement is going to move, it is suggested to use Vector2.left or Vector2.right</param>
     public void MovePlayerHorizontally(Vector2 direction)
     {
-        if (isFalling || isAscending || GameManager.Instance.State != GameStates.Play)
+        Debug.Log(player.state);
+        if (isFalling || isAscending || GameManager.Instance.State != GameStates.Play || player.state != PlayerState.Running)
             return;
         // Pop up an error if vertical movement is attempted
         if (direction.y != 0)
@@ -120,6 +121,7 @@ public class PlayerMovement : MonoBehaviour
         {
             isFalling = true;
             isAscending = false;
+            player.StartStunState();
         }
     }
 
@@ -129,6 +131,7 @@ public class PlayerMovement : MonoBehaviour
         if (collision.CompareTag(Utils.TAG_HOLE) && collision.IsTouching(feetCollider) && !isAscending)
         {
             isFalling = true;
+            player.StartStunState();
         }
         // If the playerMovement touches a hole with the head and is not falling then he will pass to next floor
         if (collision.CompareTag(Utils.TAG_HOLE) && collision.IsTouching(headCollider) && !isFalling)
