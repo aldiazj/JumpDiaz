@@ -73,7 +73,6 @@ public class PlayerMovement : MonoBehaviour
     /// <param name="direction"> Direction pointing where the playerMovement is going to move, it is suggested to use Vector2.left or Vector2.right</param>
     public void MovePlayerHorizontally(Vector2 direction)
     {
-        Debug.Log(player.state);
         if (isFalling || isAscending || GameManager.Instance.State != GameStates.Play || player.state != PlayerState.Running)
             return;
         // Pop up an error if vertical movement is attempted
@@ -137,6 +136,7 @@ public class PlayerMovement : MonoBehaviour
         if (collision.CompareTag(Utils.TAG_HOLE) && collision.IsTouching(headCollider) && !isFalling)
         {
             ableToPass = true;
+            TimeManager.Instance.ActivateSlowMo();
         }
     }
 
