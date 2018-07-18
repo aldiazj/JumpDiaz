@@ -52,12 +52,20 @@ public class GameManager : MonoBehaviour
         set
         {
             if (value >= 0 && value <= Utils.MAX_NUMBER_OF_FLOORS)
+            {
+                if (value > actualFloor)
+                    ModifyScore(5);
                 actualFloor = value;
+            }
+                
         }
     }
 
+    int score;
+
 	void Start () 
 	{
+        // Game setup
         SetupHoles();
         SetupEnemies();
 	}
@@ -104,5 +112,12 @@ public class GameManager : MonoBehaviour
         {
             HazardManager.Instance.SendEnemy();
         }
+    }
+
+    private void ModifyScore(int value)
+    {
+        // Add up score variable ant then show it on the UI
+        score += value;
+        UIManager.Instance.ModifyScore(score);
     }
 }
