@@ -60,6 +60,7 @@ public class GameManager : MonoBehaviour
                 if (actualFloor == Utils.MAX_NUMBER_OF_FLOORS)
                 {
                     ChangeState(GameStates.LevelTransition);
+                    SetLevelUp();
                 }
             }
                 
