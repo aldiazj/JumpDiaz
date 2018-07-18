@@ -63,6 +63,7 @@ public class HazardManager : MonoBehaviour
     public void ReceiveHole(Hole hole)
     {
         availableHoles.Add(hole);
+        hole.ResetHazardPosition();
     }
 
     /// <summary>
@@ -72,5 +73,33 @@ public class HazardManager : MonoBehaviour
     public void ReceiveEnemy(Enemy enemy)
     {
         availableEnemies.Add(enemy);
+        enemy.ResetHazardPosition();
+    }
+
+    public void ResetLevel()
+    {
+        Hole[] holesFound = FindObjectsOfType<Hole>();
+        for (int i = 0; i < holesFound.Length; i++)
+        {
+            if (availableHoles.Contains(holesFound[i]))
+                continue;
+            availableHoles.Add(holesFound[i]);
+        }
+        for (int i = 0; i < availableHoles.Count; i++)
+        {
+            availableHoles[i].ResetHazardPosition();
+        }
+
+        Enemy[] enemiesFound = FindObjectsOfType<Enemy>();
+        for (int i = 0; i < enemiesFound.Length; i++)
+        {
+            if (availableEnemies.Contains(enemiesFound[i]))
+                continue;
+            availableEnemies.Add(enemiesFound[i]);
+        }
+        for (int i = 0; i < availableEnemies.Count; i++)
+        {
+            availableEnemies[i].ResetHazardPosition();
+        }
     }
 }
