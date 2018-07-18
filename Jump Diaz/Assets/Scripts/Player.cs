@@ -15,7 +15,8 @@ public class Player : MonoBehaviour
 {
     [SerializeField]
     int lives = 6;
-    public PlayerState state;
+    PlayerState state;
+    public PlayerState State { get { return state; } }
 
     public void DecreaseLife()
     {
