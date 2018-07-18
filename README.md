@@ -19,6 +19,9 @@ To see the sketch followed to develop this project click [here](https://drive.go
 ### Installing
 To start working on the project first clone it on the computer, then open it on Unity (Actual working version 2018.1.6f1).
 
+### Testing
+To test the game first clone it on the computer, then open the release folder and click on the executable.
+
 ## Contributing
 
 1. Fork it (<https://github.com/aldiazj/JumpDiaz/fork>)
