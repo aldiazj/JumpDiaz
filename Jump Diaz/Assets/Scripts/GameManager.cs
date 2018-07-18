@@ -72,6 +72,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        InputManager.Instance.AssignGameManager(this);
         SetLevelUp();
     }
 
@@ -135,5 +136,16 @@ public class GameManager : MonoBehaviour
         // Add up score variable ant then show it on the UI
         score += value;
         UIManager.Instance.ModifyScore(score);
+    }
+
+    public void ResetGame()
+    {
+        UIManager.Instance.ModifyRetryText(false);
+        UIManager.Instance.ModifyHighScore(score);
+        score = 0;
+        level = 0;
+        UIManager.Instance.ModifyScore(score);
+        SetLevelUp();
+        ChangeState(GameStates.Play);
     }
 }

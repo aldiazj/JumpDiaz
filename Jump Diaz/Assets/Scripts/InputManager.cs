@@ -26,10 +26,11 @@ public class InputManager : MonoBehaviour
     }
 
     // ------ Input receivers
-    [SerializeField]
     PlayerMovement playerMovement;
-	
-	void Update ()
+    Player player;
+    GameManager gameManager;
+
+    void Update ()
     {
         // Player verification and Input handling
         if (playerMovement)
@@ -41,10 +42,28 @@ public class InputManager : MonoBehaviour
             // Up or Space Input
             if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.Space)) { playerMovement.StartAscent(); }
         }
-	}
+        if (player)
+        {
+            if (Input.GetKeyDown(KeyCode.Space) && GameManager.Instance.State == GameStates.Gameover)
+                player.ResestPlayer();
+        }
+        if (gameManager)
+        {
+            if (Input.GetKeyDown(KeyCode.Space) && gameManager.State == GameStates.Gameover)
+                gameManager.ResetGame();
+        }
+    }
 
     public void AssignPlayerMovement(PlayerMovement p)
     {
         playerMovement = p;
+    }
+    public void AssignPlayer(Player p)
+    {
+        player = p;
+    }
+    public void AssignGameManager(GameManager gm)
+    {
+        gameManager = gm;
     }
 }
