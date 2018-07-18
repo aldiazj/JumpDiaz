@@ -7,7 +7,7 @@ public enum GameStates
 {
     Play,
     Pause,
-    levelTransition,
+    LevelTransition,
     Gameover
 }
 
@@ -39,10 +39,8 @@ public class GameManager : MonoBehaviour
     public GameStates State { get { return state; } }
 
     // Holes to be set at the beggining of the level
-    [SerializeField]
-    private int initialHoles = 1;
-    [SerializeField]
-    private int initialEnemies = 1;
+    private int initialHoles = 2;
+
 
     // Actual floor where the playerMovement is, ONLY modify it on the Player class
     int actualFloor = 0;
@@ -54,21 +52,39 @@ public class GameManager : MonoBehaviour
             if (value >= 0 && value <= Utils.MAX_NUMBER_OF_FLOORS)
             {
                 if (value > actualFloor)
-                    ModifyScore(5);
+                {
+                    ModifyScore(5*level);
+                    HazardManager.Instance.SendHole();
+                }
                 actualFloor = value;
+                if (actualFloor == Utils.MAX_NUMBER_OF_FLOORS)
+                {
+                    ChangeState(GameStates.LevelTransition);
+                    SetLevelUp();
+                }
             }
                 
         }
     }
 
     int score;
+    int level;
 
-	void Start () 
+    private void Start()
+    {
+        SetLevelUp();
+    }
+
+    void SetLevelUp () 
 	{
         // Game setup
+        level++;
+        FindObjectOfType<PlayerMovement>().ResetPLayerPosition();
+        HazardManager.Instance.ResetLevel();
         SetupHoles();
-        SetupEnemies();
-	}
+        SetupEnemies(level-1);
+        ChangeState(GameStates.Play);
+    }
 
     /// <summary>
     /// Change the actual state of the game
@@ -84,7 +100,7 @@ public class GameManager : MonoBehaviour
                 isChangeAccepted = true;
                 break;
             case GameStates.Pause:
-            case GameStates.levelTransition:
+            case GameStates.LevelTransition:
             case GameStates.Gameover:
                 if (newState == GameStates.Play)
                     isChangeAccepted = true;
@@ -105,10 +121,10 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void SetupEnemies()
+    private void SetupEnemies(int enemyQuantity)
     {
         // Send all the holes asked
-        for (int i = 0; i < initialEnemies; i++)
+        for (int i = 0; i < enemyQuantity; i++)
         {
             HazardManager.Instance.SendEnemy();
         }
