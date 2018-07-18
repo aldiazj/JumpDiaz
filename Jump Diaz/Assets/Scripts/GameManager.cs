@@ -143,6 +143,7 @@ public class GameManager : MonoBehaviour
         UIManager.Instance.ModifyRetryText(false);
         UIManager.Instance.ModifyHighScore(score);
         score = 0;
+        level = 0;
         UIManager.Instance.ModifyScore(score);
         SetLevelUp();
         ChangeState(GameStates.Play);
