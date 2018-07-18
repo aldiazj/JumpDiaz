@@ -3,23 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Hole : MonoBehaviour
+public class Hole : MovingHazard
 {
     Collider2D col;
-    Transform holeTransform;
-
-    bool isPlaced;
-    public static float passingTime = 0;
-    Vector2 direction = Vector2.right;
-
-    [SerializeField]
-    float movingSpeed = 3.0f;
+    public static float passingTime = 0;    
 
     private void Awake()
     {
         col = GetComponent<Collider2D>();
-        holeTransform = GetComponent<Transform>();
-        HoleManager.Instance.ReceiveHole(this);
+        hazardTransform = GetComponent<Transform>();
+        HazardManager.Instance.ReceiveHole(this);
     }
 
     private void Update()
@@ -33,46 +26,16 @@ public class Hole : MonoBehaviour
         {
             col.enabled = true;
         }
-        if (isPlaced && GameManager.Instance.State == GameStates.Play)
-        {
-            holeTransform.Translate(direction * movingSpeed * Time.deltaTime * TimeManager.Instance.EnviromentTimer);
-            if (!LimitsManager.HoleInsideLine(Camera.main, holeTransform.position))
-                MoveToNextLine();
-        }
-    }
-
-    public void Initialize(Vector2 dir)
-    {
-        // Start a new hole at a random position and with a given direction
-        direction = dir;
-        Vector2 newPos = holeTransform.position;
-        newPos.y = UnityEngine.Random.Range(-3, 5);
-        newPos.x = UnityEngine.Random.Range(-5.8f , 5.8f);
-        holeTransform.position = newPos;
-        isPlaced = true;
-    }
-
-    private void MoveToNextLine()
-    {
-        // If the hole is moving right then at th end of the line it should go down one level, else it should go up
-        Vector2 newPos = holeTransform.position;
-        newPos.y += (direction == Vector2.right) ? -1 : 1;
-        newPos.x *= -1;
-        // The hole needs to be repositioned on x to avoid conflicts with the LimitsManager
-        if (newPos.x < 0)
-            newPos.x += 0.1f;
-        if (newPos.x > 0)
-            newPos.x -= 0.1f;
-        // If the hole reaches the top, it should start again at the bottom and viceversa
-        if (newPos.y < -3)
-            newPos.y = 4;
-        if (newPos.y > 4)
-            newPos.y = -3;
-        holeTransform.position = newPos;
+        Move();
     }
 
     public void LetPlayerPass()
     {
         passingTime = 2;
+    }
+
+    protected override bool CheckBoundaries()
+    {
+        return !LimitsManager.HoleInsideLine(Camera.main, hazardTransform.position);
     }
 }
