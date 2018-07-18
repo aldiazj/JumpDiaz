@@ -47,11 +47,11 @@ public class UIManager : MonoBehaviour
 
     public void ModifyHighScore(int value)
     {
-        highScoreText.text = "Hi" + value.ToString("00000");
+        highScoreText.text = "HI" + value.ToString("00000");
     }
 
     public void ModifyScore(int value)
     {
-        highScoreText.text = "Hi" + value.ToString("00000");
+        highScoreText.text = "SC" + value.ToString("00000");
     }
 }

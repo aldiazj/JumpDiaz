@@ -715,7 +715,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Hi00000
+  m_Text: HI00000
 --- !u!222 &404905978
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2333,6 +2333,7 @@ GameObject:
   - component: {fileID: 1147188412}
   - component: {fileID: 1147188411}
   - component: {fileID: 1147188413}
+  - component: {fileID: 1147188414}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -2378,6 +2379,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialHoles: 4
   initialEnemies: 3
+--- !u!114 &1147188414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1147188410}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 331d510d4beae004aa0a60896ea9872d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  livesImages:
+  - {fileID: 1595852950}
+  - {fileID: 1702863409}
+  - {fileID: 71696754}
+  - {fileID: 598039049}
+  - {fileID: 703755563}
+  - {fileID: 1837210414}
+  - {fileID: 1696095130}
+  highScoreText: {fileID: 404905977}
+  scoreText: {fileID: 1179671779}
 --- !u!1 &1156596989
 GameObject:
   m_ObjectHideFlags: 0
@@ -2619,7 +2641,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Sc00000
+  m_Text: SC00000
 --- !u!222 &1179671780
 CanvasRenderer:
   m_ObjectHideFlags: 0
