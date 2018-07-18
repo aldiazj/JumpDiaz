@@ -20,7 +20,7 @@ To see the sketch followed to develop this project click [here](https://drive.go
 To start working on the project first clone it on the computer, then open it on Unity (Actual working version 2018.1.6f1).
 
 ### Testing
-To test the game first clone it on the computer, then open the release folder and click on the executable.
+To test the game first download this [zip folder](https://drive.google.com/open?id=19p2NMGiJ1jQwRO7PRTosJPUGlxIoh5Jx) on the computer, then open it and click on the executable.
 
 ## Contributing
 
