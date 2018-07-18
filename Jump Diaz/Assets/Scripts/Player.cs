@@ -25,6 +25,7 @@ public class Player : MonoBehaviour
             lives--;
         else
             Die(); // Else, the playerMovement has no more lives and must die
+        UIManager.Instance.ModifyLives(lives);
     }
 
     private void Die()
