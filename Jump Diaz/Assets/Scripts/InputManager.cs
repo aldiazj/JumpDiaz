@@ -27,24 +27,24 @@ public class InputManager : MonoBehaviour
 
     // ------ Input receivers
     [SerializeField]
-    Player player;
+    PlayerMovement playerMovement;
 	
 	void Update ()
     {
         // Player verification and Input handling
-        if (player)
+        if (playerMovement)
         {
             // Left or A Input
-            if (Input.GetKey(KeyCode.LeftArrow)||Input.GetKey(KeyCode.A)) { player.MovePlayerHorizontally(Vector2.left); }
+            if (Input.GetKey(KeyCode.LeftArrow)||Input.GetKey(KeyCode.A)) { playerMovement.MovePlayerHorizontally(Vector2.left); }
             // Rigth or D Input
-            if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)) { player.MovePlayerHorizontally(Vector2.right); }
+            if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D)) { playerMovement.MovePlayerHorizontally(Vector2.right); }
             // Up or Space Input
-            if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.Space)) { player.StartAscent(); }
+            if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.Space)) { playerMovement.StartAscent(); }
         }
 	}
 
-    public void AssignPlayer(Player p)
+    public void AssignPlayerMovement(PlayerMovement p)
     {
-        player = p;
+        playerMovement = p;
     }
 }
